@@ -24,9 +24,12 @@ secrets.json
 connectionstrings.*.json
 
 
+**/bin/
+**/obj/
+**/.vs/
 bin/
 obj/
-**/.vs/
+vs/
 *.vsidx
 *.user
 *.suo
