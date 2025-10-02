@@ -1,0 +1,44 @@
+﻿using MoneyTrack.Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MoneyTrack.Domain.Models.Initial
+{
+    public static class SeedData
+    {
+        public static Wallet[] wallets = new[]
+        {
+            new Wallet { Id = Guid.NewGuid(), WalletName = "Основной", Currency = Currency.RUB, InitialBalance = 50000 },
+            new Wallet { Id = Guid.NewGuid(), WalletName = "Долларовый", Currency = Currency.USD, InitialBalance = 1000 },
+            new Wallet { Id = Guid.NewGuid(), WalletName = "Евро", Currency = Currency.EUR, InitialBalance = 500 },
+            new Wallet { Id = Guid.NewGuid(), WalletName = "Накопления", Currency = Currency.RUB, InitialBalance = 150000 }
+        };
+
+        public static Transaction[] transactions = new[]
+        {
+            new Transaction { Id = Guid.NewGuid(), Date = new DateTime(2024, 1, 10), Amount = 50000, TransactionType = TransactionType.Income, Description = "Зарплата", WalletId = wallets[0].Id },
+            new Transaction { Id = Guid.NewGuid(), Date = new DateTime(2024, 1, 15), Amount = 15000, TransactionType = TransactionType.Expense, Description = "Продукты", WalletId = wallets[0].Id },
+            new Transaction { Id = Guid.NewGuid(), Date = new DateTime(2024, 2, 5), Amount = 300, TransactionType = TransactionType.Income, Description = "Кэшбэк", WalletId = wallets[1].Id },
+            new Transaction { Id = Guid.NewGuid(), Date = new DateTime(2024, 2, 20), Amount = 200, TransactionType = TransactionType.Expense, Description = "Ресторан", WalletId = wallets[1].Id },
+            new Transaction { Id = Guid.NewGuid(), Date = new DateTime(2024, 3, 1), Amount = 250, TransactionType = TransactionType.Income, Description = "Дивиденды", WalletId = wallets[2].Id },
+            new Transaction { Id = Guid.NewGuid(), Date = new DateTime(2024, 3, 12), Amount = 100, TransactionType = TransactionType.Expense, Description = "Транспорт", WalletId = wallets[2].Id },
+            new Transaction { Id = Guid.NewGuid(), Date = new DateTime(2024, 4, 8), Amount = 30000, TransactionType = TransactionType.Income, Description = "Премия", WalletId = wallets[3].Id },
+            new Transaction { Id = Guid.NewGuid(), Date = new DateTime(2024, 4, 18), Amount = 5000, TransactionType = TransactionType.Expense, Description = "Одежда", WalletId = wallets[3].Id },
+            new Transaction { Id = Guid.NewGuid(), Date = new DateTime(2024, 5, 3), Amount = 45000, TransactionType = TransactionType.Income, Description = "Зарплата", WalletId = wallets[0].Id },
+            new Transaction { Id = Guid.NewGuid(), Date = new DateTime(2024, 5, 22), Amount = 8000, TransactionType = TransactionType.Expense, Description = "Коммуналка", WalletId = wallets[0].Id },
+            new Transaction { Id = Guid.NewGuid(), Date = new DateTime(2024, 6, 7), Amount = 150, TransactionType = TransactionType.Income, Description = "Проценты", WalletId = wallets[1].Id },
+            new Transaction { Id = Guid.NewGuid(), Date = new DateTime(2024, 6, 25), Amount = 350, TransactionType = TransactionType.Expense, Description = "Путешествия", WalletId = wallets[1].Id },
+            new Transaction { Id = Guid.NewGuid(), Date = new DateTime(2024, 7, 14), Amount = 180, TransactionType = TransactionType.Income, Description = "Инвестиции", WalletId = wallets[2].Id },
+            new Transaction { Id = Guid.NewGuid(), Date = new DateTime(2024, 7, 29), Amount = 120, TransactionType = TransactionType.Expense, Description = "Медицина", WalletId = wallets[2].Id },
+            new Transaction { Id = Guid.NewGuid(), Date = new DateTime(2024, 8, 9), Amount = 25000, TransactionType = TransactionType.Income, Description = "Фриланс", WalletId = wallets[3].Id },
+            new Transaction { Id = Guid.NewGuid(), Date = new DateTime(2024, 8, 19), Amount = 12000, TransactionType = TransactionType.Expense, Description = "Ремонт", WalletId = wallets[3].Id },
+            new Transaction { Id = Guid.NewGuid(), Date = new DateTime(2024, 9, 11), Amount = 48000, TransactionType = TransactionType.Income, Description = "Зарплата", WalletId = wallets[0].Id },
+            new Transaction { Id = Guid.NewGuid(), Date = new DateTime(2024, 9, 28), Amount = 9000, TransactionType = TransactionType.Expense, Description = "Отдых", WalletId = wallets[0].Id },
+            new Transaction { Id = Guid.NewGuid(), Date = new DateTime(2024, 10, 6), Amount = 400, TransactionType = TransactionType.Income, Description = "Бонус", WalletId = wallets[1].Id },
+            new Transaction { Id = Guid.NewGuid(), Date = new DateTime(2024, 10, 17), Amount = 180, TransactionType = TransactionType.Expense, Description = "Образование", WalletId = wallets[1].Id }
+        };
+    }
+}

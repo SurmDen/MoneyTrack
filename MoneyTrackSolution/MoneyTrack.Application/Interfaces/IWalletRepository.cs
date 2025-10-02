@@ -13,9 +13,9 @@ namespace MoneyTrack.Application.Interfaces
     {
         public Task<Wallet> CreateWalletAsync(CreateWalletDTO walletDTO);
 
-        public Task CreateTransactionAsyncAsync(CreateTransactionDTO transactionDTO);
+        public Task CreateTransactionAsync(CreateTransactionDTO transactionDTO);
 
-        public Task<List<Wallet>> GetWalletsWithTransactionsAsync();
+        public Task<List<Wallet>> GetWalletsWithTransactionsAsync(int transactionsCount, int year, int month);
 
         public Task<Wallet> GetWalletByIdAsync(Guid walletId);
 
