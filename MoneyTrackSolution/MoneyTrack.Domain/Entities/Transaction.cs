@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MoneyTrack.Domain.Models
+namespace MoneyTrack.Domain.Entities
 {
     public class Transaction
     {
@@ -18,7 +18,7 @@ namespace MoneyTrack.Domain.Models
 
         public string Description { get; set; } = string.Empty;
 
-        public Wallet Wallet { get; set; }
+        public Wallet Wallet { get; set; } = new();
 
         public Guid WalletId { get; set; }
 

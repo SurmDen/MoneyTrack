@@ -11,12 +11,12 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("MoneyTrack.Domain")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("MoneyTrack.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+23d2cb6a101b5c9b0f1b1257fc59f93cad8728b8")]
-[assembly: System.Reflection.AssemblyProductAttribute("MoneyTrack.Domain")]
-[assembly: System.Reflection.AssemblyTitleAttribute("MoneyTrack.Domain")]
+[assembly: System.Reflection.AssemblyProductAttribute("MoneyTrack.Application")]
+[assembly: System.Reflection.AssemblyTitleAttribute("MoneyTrack.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 
 // Создано классом WriteCodeFragment MSBuild.

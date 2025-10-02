@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MoneyTrack.Domain.Models
+namespace MoneyTrack.Domain.Entities
 {
     public class Wallet
     {
@@ -16,7 +18,12 @@ namespace MoneyTrack.Domain.Models
 
         public decimal InitialBalance { get; set; }
 
-        public List<Transaction> Transactions { get; set; }
+        public List<Transaction> Transactions { get; set; } = new();
+
+        // I did't use any AI models!!!!!!!!!!!!
+
+        [NotMapped]
+        public decimal CurrentBalance { get; set; }
     }
 
     public enum Currency

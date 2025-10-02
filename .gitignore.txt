@@ -23,6 +23,7 @@ secrets.json
 *.config
 connectionstrings.*.json
 
+
 bin/
 obj/
 **/.vs/
