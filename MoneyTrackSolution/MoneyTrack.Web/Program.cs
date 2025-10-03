@@ -3,10 +3,18 @@ using Microsoft.OpenApi.Models;
 using MoneyTrack.Application.Interfaces;
 using MoneyTrack.Infrastructure.Data;
 using MoneyTrack.Infrastructure.Services;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
+
 builder.Services.AddLogging();
 
 builder.Services.AddSwaggerGen(c =>

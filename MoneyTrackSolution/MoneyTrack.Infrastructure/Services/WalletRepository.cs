@@ -199,6 +199,11 @@ namespace MoneyTrack.Infrastructure.Services
 
             foreach (var wallet in wallets)
             {
+                foreach (var transaction in wallet.Transactions)
+                {
+                    transaction.Wallet = null;
+                }
+
                 if (wallet.Transactions.Count > 0)
                 {
                     wallet.Transactions = wallet.Transactions
@@ -247,6 +252,8 @@ namespace MoneyTrack.Infrastructure.Services
 
             foreach (var transaction in wallet.Transactions)
             {
+                transaction.Wallet = null;
+
                 if (transaction.TransactionType == TransactionType.Income)
                 {
                     walletInfoResponse.IncomeTransactionsGroup.Transactions.Add(transaction);
