@@ -9,12 +9,14 @@ namespace MoneyTrack.Infrastructure.Services
 {
     public class WalletRepository : IWalletRepository
     {
-        public WalletRepository(ApplicationDbContext dbContext)
+        public WalletRepository(ApplicationDbContext dbContext, ICurrencyApiService currencyApiService)
         {
             _dbContext = dbContext;
+            _currencyService = currencyApiService;
         }
 
         private readonly ApplicationDbContext _dbContext;
+        private readonly ICurrencyApiService _currencyService;
 
         public async Task CreateTransactionAsync(CreateTransactionDTO transactionDTO)
         {
@@ -40,6 +42,8 @@ namespace MoneyTrack.Infrastructure.Services
                 }
 
                 senderWallet.CurrentBalance = senderWallet.InitialBalance;
+
+                var currency = await _currencyService.ConvertAsync(senderWallet.Currency, receiverWallet.Currency);
 
                 if (senderWallet.Transactions != null)
                 {
@@ -78,7 +82,7 @@ namespace MoneyTrack.Infrastructure.Services
                 {
                     Id = Guid.NewGuid(),
                     Date = DateTime.UtcNow,
-                    Amount = transactionDTO.Amount,
+                    Amount = transactionDTO.Amount * currency,
                     TransactionType = TransactionType.Income,
                     WalletId = receiverWallet.Id,
                     Description = transactionDTO.Description

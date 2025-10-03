@@ -20,8 +20,6 @@ namespace MoneyTrack.Domain.Entities
 
         public List<Transaction> Transactions { get; set; } = new();
 
-        // I did't use any AI models!!!!!!!!!!!!
-
         [NotMapped]
         public decimal CurrentBalance { get; set; }
     }
