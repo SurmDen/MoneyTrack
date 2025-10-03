@@ -1,3 +1,4 @@
+# Images and media
 *.jpg
 *.jpeg
 *.png
@@ -7,6 +8,7 @@
 *.webp
 *.mp4
 
+# Databases
 *.db
 *.sqlite
 *.sqlite3
@@ -17,18 +19,18 @@
 *.sdf
 Migrations/
 
+# Configs and secrets
 appsettings.json
 appsettings.*.json
 secrets.json
 *.config
 connectionstrings.*.json
 
-
+# Build outputs
 **/bin/
 **/obj/
-**/.vs/
-bin/
-obj/
+
+# IDE files
 .vs/
 *.vsidx
 *.user
@@ -37,14 +39,17 @@ obj/
 *.vspscc
 *.vssscc
 
+# Logs and temp files
 *.log
 *.tmp
 *.temp
 
+# Other IDEs
 .idea/
 .vscode/
 launchSettings.json
 
+# NuGet
 packages/
 .nuget/
 NuGet.exe
