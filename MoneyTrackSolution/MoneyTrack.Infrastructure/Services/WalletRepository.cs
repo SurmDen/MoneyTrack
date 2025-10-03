@@ -43,7 +43,17 @@ namespace MoneyTrack.Infrastructure.Services
 
                 senderWallet.CurrentBalance = senderWallet.InitialBalance;
 
-                var currency = await _currencyService.ConvertAsync(senderWallet.Currency, receiverWallet.Currency);
+                decimal currency = 1;
+
+                try
+                {
+                    currency = await _currencyService.ConvertAsync(senderWallet.Currency, receiverWallet.Currency);
+                }
+                catch (Exception ex)
+                {
+                    throw new InvalidOperationException(
+                        $"Currency conversion from {senderWallet.Currency} to {receiverWallet.Currency} failed", ex);
+                }
 
                 if (senderWallet.Transactions != null)
                 {
