@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MoneyTrack.Application.Interfaces;
 using MoneyTrack.Domain.Entities;
+using MoneyTrack.Domain.Exceptions;
 using MoneyTrack.Domain.Models.DTOs;
 using MoneyTrack.Domain.Models.Responses;
 using MoneyTrack.Infrastructure.Data;
@@ -75,7 +76,7 @@ namespace MoneyTrack.Infrastructure.Services
 
                 if (senderWallet.CurrentBalance < transactionDTO.Amount)
                 {
-                    throw new InvalidOperationException($"sender with id {senderWallet.Id} has lower balance, than transacted sum");
+                    throw new LowerBalanceException($"sender with id {senderWallet.Id} has lower balance, than transacted sum");
                 }
 
                 Transaction senderTransaction = new Transaction()

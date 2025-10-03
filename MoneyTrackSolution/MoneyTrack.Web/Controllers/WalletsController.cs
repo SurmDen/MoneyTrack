@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MoneyTrack.Application.Interfaces;
+using MoneyTrack.Domain.Exceptions;
 using MoneyTrack.Domain.Models.DTOs;
 
 namespace MoneyTrack.Web.Controllers
@@ -86,6 +87,16 @@ namespace MoneyTrack.Web.Controllers
 
                 _logger.LogInformation("Transaction created successfully");
                 return Ok(new { message = "Transaction created successfully" });
+            }
+            catch (LowerBalanceException lb_ex)
+            {
+                _logger.LogError(lb_ex, "Error creating transaction");
+                return BadRequest(new { message = "You don't have enough funds" });
+            }
+            catch (InvalidOperationException inv_ex)
+            {
+                _logger.LogError(inv_ex, "Error creating transaction");
+                return BadRequest(new { message = "Couldn't make transaction, please input correct data" });
             }
             catch (Exception ex)
             {
