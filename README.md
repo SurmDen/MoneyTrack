@@ -52,16 +52,20 @@
 - Git
 
 ### Установка и запуск
-# Клонирование репозитория
+### Клонирование репозитория
+```
 git clone https://github.com/SurmDen/moneytrack.git
 
 cd moneytrack
-
-# Восстановление зависимостей
+```
+### Восстановление зависимостей
+```
 dotnet restore
-
-# Запуск приложения
+```
+### Запуск приложения
+```
 dotnet run --project MoneyTrackSolution/MoneyTrack.Web/
+```
 
-# Приложение будет доступно по ссылке
+### Приложение будет доступно по ссылке
 http://localhost:port/main
