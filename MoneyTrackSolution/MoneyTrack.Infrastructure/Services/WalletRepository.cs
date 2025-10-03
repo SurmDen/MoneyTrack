@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using MoneyTrack.Application.Interfaces;
 using MoneyTrack.Domain.Entities;
+using MoneyTrack.Domain.Exceptions;
 using MoneyTrack.Domain.Models.DTOs;
 using MoneyTrack.Domain.Models.Responses;
 using MoneyTrack.Infrastructure.Data;
@@ -9,14 +11,16 @@ namespace MoneyTrack.Infrastructure.Services
 {
     public class WalletRepository : IWalletRepository
     {
-        public WalletRepository(ApplicationDbContext dbContext, ICurrencyApiService currencyApiService)
+        public WalletRepository(ApplicationDbContext dbContext, ICurrencyApiService currencyApiService, ILogger<WalletRepository> logger)
         {
             _dbContext = dbContext;
             _currencyService = currencyApiService;
+            _logger = logger;
         }
 
         private readonly ApplicationDbContext _dbContext;
         private readonly ICurrencyApiService _currencyService;
+        private readonly ILogger<WalletRepository> _logger;
 
         public async Task CreateTransactionAsync(CreateTransactionDTO transactionDTO)
         {
@@ -30,6 +34,7 @@ namespace MoneyTrack.Infrastructure.Services
 
                 if (senderWallet == null)
                 {
+                    _logger.LogError($"sender wallet with id {transactionDTO.SenderWalletId} not found");
                     throw new InvalidOperationException($"sender wallet with id {transactionDTO.SenderWalletId} not found");
                 }
 
@@ -38,12 +43,25 @@ namespace MoneyTrack.Infrastructure.Services
 
                 if (receiverWallet == null)
                 {
+                    _logger.LogError($"receiver wallet with id {transactionDTO.ReceiverWalletId} not found");
                     throw new InvalidOperationException($"receiver wallet with id {transactionDTO.ReceiverWalletId} not found");
                 }
 
                 senderWallet.CurrentBalance = senderWallet.InitialBalance;
 
-                var currency = await _currencyService.ConvertAsync(senderWallet.Currency, receiverWallet.Currency);
+                decimal currency = 1;
+
+                try
+                {
+                    currency = await _currencyService.ConvertAsync(senderWallet.Currency, receiverWallet.Currency);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, $"Currency conversion from {senderWallet.Currency} to {receiverWallet.Currency} failed");
+
+                    throw new InvalidOperationException(
+                        $"Currency conversion from {senderWallet.Currency} to {receiverWallet.Currency} failed", ex);
+                }
 
                 if (senderWallet.Transactions != null)
                 {
@@ -65,7 +83,9 @@ namespace MoneyTrack.Infrastructure.Services
 
                 if (senderWallet.CurrentBalance < transactionDTO.Amount)
                 {
-                    throw new InvalidOperationException($"sender with id {senderWallet.Id} has lower balance, than transacted sum");
+                    _logger.LogError($"sender with id {senderWallet.Id} has lower balance, than transacted sum");
+
+                    throw new LowerBalanceException($"sender with id {senderWallet.Id} has lower balance, than transacted sum");
                 }
 
                 Transaction senderTransaction = new Transaction()
@@ -93,9 +113,12 @@ namespace MoneyTrack.Infrastructure.Services
 
                 await transaction.CommitAsync();
             }
-            catch
+            catch (Exception e)
             {
+                _logger.LogError(e, "Unespected error occured");
+
                 await transaction.RollbackAsync();
+
                 throw;
             }
         }
@@ -130,6 +153,8 @@ namespace MoneyTrack.Infrastructure.Services
 
             if (wallet == null)
             {
+                _logger.LogError($"Wallet with id {walletId} not found");
+
                 throw new InvalidOperationException($"Wallet with id {walletId} not found");
             }
 
@@ -169,16 +194,22 @@ namespace MoneyTrack.Infrastructure.Services
 
             if (month < 1 || month > 12)
             {
+                _logger.LogError($"Invalid month data: {month}");
+
                 throw new ArgumentOutOfRangeException("Month must be between 1 and 12");
             }
 
             if (year < 2000 || year > currentYear)
             {
+                _logger.LogError($"Invalid year data: {year}");
+
                 throw new ArgumentOutOfRangeException($"Year must be between 2000 and {currentYear}");
             }
 
             if (year == currentYear && month > DateTime.Now.Month)
             {
+                _logger.LogError($"Invalid year data: {year}");
+
                 throw new ArgumentOutOfRangeException($"We cannot see future");
             }
 
@@ -189,6 +220,11 @@ namespace MoneyTrack.Infrastructure.Services
 
             foreach (var wallet in wallets)
             {
+                foreach (var transaction in wallet.Transactions)
+                {
+                    transaction.Wallet = null;
+                }
+
                 if (wallet.Transactions.Count > 0)
                 {
                     wallet.Transactions = wallet.Transactions
@@ -208,16 +244,22 @@ namespace MoneyTrack.Infrastructure.Services
 
             if (month < 1 || month > 12)
             {
+                _logger.LogError($"Invalid month data: {month}");
+
                 throw new ArgumentOutOfRangeException("Month must be between 1 and 12");
             }
 
             if (year < 2000 || year > currentYear)
             {
+                _logger.LogError($"Invalid year data: {year}");
+
                 throw new ArgumentOutOfRangeException($"Year must be between 2000 and {currentYear}");
             }
 
             if (year == currentYear && month > DateTime.Now.Month)
             {
+                _logger.LogError($"Invalid year data: {year}");
+
                 throw new ArgumentOutOfRangeException($"We cannot see future");
             }
 
@@ -228,6 +270,8 @@ namespace MoneyTrack.Infrastructure.Services
 
             if (wallet == null)
             {
+                _logger.LogError($"Wallet with id {walletId} not found");
+
                 throw new InvalidOperationException($"Wallet with id {walletId} not found");
             }
 
@@ -237,6 +281,8 @@ namespace MoneyTrack.Infrastructure.Services
 
             foreach (var transaction in wallet.Transactions)
             {
+                transaction.Wallet = null;
+
                 if (transaction.TransactionType == TransactionType.Income)
                 {
                     walletInfoResponse.IncomeTransactionsGroup.Transactions.Add(transaction);
