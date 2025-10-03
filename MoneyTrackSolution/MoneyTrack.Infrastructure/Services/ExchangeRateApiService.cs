@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using MoneyTrack.Application.Interfaces;
 using MoneyTrack.Domain.Entities;
 using MoneyTrack.Domain.Models.Responses;
@@ -16,15 +17,16 @@ namespace MoneyTrack.Infrastructure.Services
     {
         private readonly HttpClient _httpClient;
         private readonly IMemoryCache _cache;
+        private readonly ILogger<ExchangeRateApiService> _logger;
         private readonly string _baseURL;
         private readonly string _cachePrefix = "exchange_rate";
         private readonly TimeSpan _cacheDuration = TimeSpan.FromHours(6);
 
-
-        public ExchangeRateApiService(HttpClient httpClient, IMemoryCache cache, IConfiguration configuration)
+        public ExchangeRateApiService(HttpClient httpClient, IMemoryCache cache, IConfiguration configuration, ILogger<ExchangeRateApiService> logger)
         {
             _httpClient = httpClient;
             _cache = cache;
+            _logger = logger;
             _baseURL = configuration["ExchangeRateApi:baseURL"] ?? throw new ArgumentException("Base URL is not configured");
         }
 
@@ -38,18 +40,21 @@ namespace MoneyTrack.Infrastructure.Services
                 }
                 else if (_cache.TryGetValue($"{_cachePrefix}:{to}-{from}", out decimal reversedCachedRate))
                 {
-                    return 1 / reversedCachedRate;
+                    var calculatedRate = 1 / reversedCachedRate;
+                    return calculatedRate;
                 }
 
                 ExchangeRateApiResponse? response = await _httpClient.GetFromJsonAsync<ExchangeRateApiResponse>(_baseURL + from);
 
                 if (response == null)
                 {
+                    _logger.LogError("Exchange Rate api returned null");
                     throw new InvalidOperationException("Exchange Rate api returned null");
                 }
 
                 if (response.Result != "success")
                 {
+                    _logger.LogError($"Exchange Rate result: {response.Result}");
                     throw new InvalidOperationException($"Exchange Rate result: {response.Result}");
                 }
 
@@ -61,14 +66,15 @@ namespace MoneyTrack.Infrastructure.Services
                 _cache.Set($"{_cachePrefix}:{from}-{to}", rateValue, cacheOptions);
 
                 return rateValue;
-
             }
             catch (HttpRequestException ex)
             {
-                throw new InvalidOperationException("Error occured while attempling to get data from Exchange Rate service", ex);
+                _logger.LogError(ex, "Error occurred while attempting to get data from Exchange Rate service");
+                throw new InvalidOperationException("Error occurred while attempting to get data from Exchange Rate service", ex);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Unexpected error");
                 throw;
             }
         }
