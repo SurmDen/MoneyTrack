@@ -62,3 +62,6 @@ dotnet restore
 
 # Запуск приложения
 dotnet run --project MoneyTrackSolution/MoneyTrack.Web/
+
+# Приложение будет доступно по ссылке
+http://localhost:port/main
