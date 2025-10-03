@@ -66,4 +66,11 @@ app.UseStaticFiles();
 app.UseSession();
 app.MapControllers();
 
+app.MapGet("/main", () =>
+{
+    var filePath = Path.Combine(builder.Environment.WebRootPath, "mainpage", "index.html");
+
+    return Results.File(filePath, "text/html");
+});
+
 app.Run();
