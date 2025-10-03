@@ -29,7 +29,7 @@ connectionstrings.*.json
 **/.vs/
 bin/
 obj/
-vs/
+.vs/
 *.vsidx
 *.user
 *.suo
