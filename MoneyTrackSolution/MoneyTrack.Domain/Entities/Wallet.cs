@@ -18,7 +18,7 @@ namespace MoneyTrack.Domain.Entities
 
         public decimal InitialBalance { get; set; }
 
-        public List<Transaction> Transactions { get; set; } = new();
+        public List<Transaction> Transactions { get; set; }
 
         [NotMapped]
         public decimal CurrentBalance { get; set; }

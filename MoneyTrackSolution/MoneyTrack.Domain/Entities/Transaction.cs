@@ -18,7 +18,7 @@ namespace MoneyTrack.Domain.Entities
 
         public string Description { get; set; } = string.Empty;
 
-        public Wallet Wallet { get; set; } = new();
+        public Wallet Wallet { get; set; }
 
         public Guid WalletId { get; set; }
 
