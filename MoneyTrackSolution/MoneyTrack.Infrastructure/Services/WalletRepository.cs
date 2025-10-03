@@ -220,13 +220,24 @@ namespace MoneyTrack.Infrastructure.Services
 
             foreach (var wallet in wallets)
             {
-                foreach (var transaction in wallet.Transactions)
-                {
-                    transaction.Wallet = null;
-                }
+                wallet.CurrentBalance = wallet.InitialBalance;
 
                 if (wallet.Transactions.Count > 0)
                 {
+                    foreach (var transaction in wallet.Transactions)
+                    {
+                        if (transaction.TransactionType == TransactionType.Income)
+                        {
+                            wallet.CurrentBalance += transaction.Amount;
+                        }
+                        else
+                        {
+                            wallet.CurrentBalance -= transaction.Amount;
+                        }
+
+                        transaction.Wallet = null;
+                    }
+
                     wallet.Transactions = wallet.Transactions
                         .Where(x => x.Date.Month == month && x.Date.Year == year && x.TransactionType == TransactionType.Expense)
                         .Take(transactionsCount)
@@ -275,7 +286,7 @@ namespace MoneyTrack.Infrastructure.Services
                 throw new InvalidOperationException($"Wallet with id {walletId} not found");
             }
 
-            wallet.Transactions = wallet.Transactions.OrderBy(x => x.Date).ToList();
+            wallet.Transactions = wallet.Transactions.Where(t => t.Date.Year == year && t.Date.Month == month).OrderBy(x => x.Date).ToList();
 
             WalletInfoResponse walletInfoResponse = new WalletInfoResponse();
 

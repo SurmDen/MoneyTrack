@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoneyTrack - Финансовый менеджер</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <div class="header">
+            <h1>💰 MoneyTrack</h1>
+            <p>Профессиональная система управления финансами</p>
+        </div>
+
+        <div class="controls-section">
+            <div class="form-group">
+                <label for="monthSelect">Месяц</label>
+                <select id="monthSelect">
+                    <option value="1">Январь</option>
+                    <option value="2">Февраль</option>
+                    <option value="3">Март</option>
+                    <option value="4">Апрель</option>
+                    <option value="5">Май</option>
+                    <option value="6">Июнь</option>
+                    <option value="7">Июль</option>
+                    <option value="8">Август</option>
+                    <option value="9">Сентябрь</option>
+                    <option selected value="10">Октябрь</option>
+                    <option value="11">Ноябрь</option>
+                    <option value="12">Декабрь</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="yearSelect">Год</label>
+                <select id="yearSelect">
+                    <option selected value="2025">2025</option>
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                </select>
+            </div>
+            <button onclick="loadAllData()">🔄 Обновить данные</button>
+        </div>
+
+        <div class="main-layout">
+            <div class="main-content">
+                <div class="card selected-wallet" id="selectedWalletCard">
+                    <div class="loading">Загрузка основного кошелька...</div>
+                </div>
+
+                <div class="card">
+                    <h2>📋 Транзакции основного кошелька в текущем месяце</h2>
+                    <div class="transactions-grid">
+                        <div>
+                            <h3 style="color: var(--success); margin-bottom: 20px; font-size: 1.2rem;">📈 Доходы</h3>
+                            <div class="transactions-list" id="incomeTransactions">
+                                <div class="loading">Загрузка доходов...</div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 style="color: var(--danger); margin-bottom: 20px; font-size: 1.2rem;">📉 Расходы</h3>
+                            <div class="transactions-list" id="expenseTransactions">
+                                <div class="loading">Загрузка расходов...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>👛 Другие кошельки</h2>
+                    <div id="otherWalletsContainer" class="other-wallets-grid">
+                        <div class="loading">Загрузка кошельков...</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="card transaction-form">
+                    <h2>💸 Новая транзакция</h2>
+                    <div class="form-group">
+                        <label for="senderWallet">Отправитель</label>
+                        <select id="senderWallet">
+                            <option value="">Выберите кошелёк</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="receiverWallet">Получатель</label>
+                        <select id="receiverWallet">
+                            <option value="">Выберите кошелёк</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="transactionAmount">Сумма</label>
+                        <input type="number" id="transactionAmount" placeholder="0.00" step="0.01" min="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label for="transactionDescription">Описание</label>
+                        <textarea id="transactionDescription" placeholder="Описание транзакции" rows="3"></textarea>
+                    </div>
+                    <button onclick="createTransaction()">✅ Создать транзакцию</button>
+                </div>
+
+                <div class="card wallet-form">
+                    <h2>🆕 Новый кошелёк</h2>
+                    <div class="form-group">
+                        <label for="newWalletName">Название кошелька</label>
+                        <input type="text" id="newWalletName" placeholder="Основной кошелёк">
+                    </div>
+                    <div class="form-group">
+                        <label for="newWalletCurrency">Валюта</label>
+                        <select id="newWalletCurrency">
+                            <option value="0">Рубли (RUB)</option>
+                            <option value="1">Доллары (USD)</option>
+                            <option value="2">Евро (EUR)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="newWalletBalance">Начальный баланс</label>
+                        <input type="number" id="newWalletBalance" placeholder="0.00" step="0.01" min="0">
+                    </div>
+                    <button onclick="createWallet()">✅ Создать кошелёк</button>
+                </div>
+
+                <div class="card">
+                    <h2>📊 Сводка за месяц</h2>
+                    <div id="monthlySummary">
+                        <div class="summary-item">
+                            <span>Общий доход:</span>
+                            <span id="totalMonthlyIncome"></span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Общий расход:</span>
+                            <span id="totalMonthlyExpense"></span>
+                        </div>
+                        <div class="summary-item summary-total">
+                            <span>Итого:</span>
+                            <span id="monthlyNet"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
