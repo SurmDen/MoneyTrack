@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyTrack.Application", "M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyTrack.Infrastructure", "MoneyTrack.Infrastructure\MoneyTrack.Infrastructure.csproj", "{32BFC21E-0C03-4DD3-9A06-01D01D0D58B6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyTrack.Web", "MoneyTrack.Web\MoneyTrack.Web.csproj", "{F8CD9BBE-CF70-489A-88BA-6A8B254E1710}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{32BFC21E-0C03-4DD3-9A06-01D01D0D58B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32BFC21E-0C03-4DD3-9A06-01D01D0D58B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32BFC21E-0C03-4DD3-9A06-01D01D0D58B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8CD9BBE-CF70-489A-88BA-6A8B254E1710}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8CD9BBE-CF70-489A-88BA-6A8B254E1710}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8CD9BBE-CF70-489A-88BA-6A8B254E1710}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8CD9BBE-CF70-489A-88BA-6A8B254E1710}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

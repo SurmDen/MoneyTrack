@@ -16,7 +16,7 @@ namespace MoneyTrack.Infrastructure.Services
     {
         private readonly HttpClient _httpClient;
         private readonly IMemoryCache _cache;
-        private readonly string _baseURL; //https://open.er-api.com/v6/latest/
+        private readonly string _baseURL;
         private readonly string _cachePrefix = "exchange_rate";
         private readonly TimeSpan _cacheDuration = TimeSpan.FromHours(6);
 
