@@ -1,57 +1,37 @@
-# Images and media
-*.jpg
-*.jpeg
-*.png
-*.gif
-*.bmp
-*.svg
-*.webp
-*.mp4
-
-# Databases
-*.db
-*.sqlite
-*.sqlite3
-*.db-shm
-*.db-wal
-*.mdf
-*.ldf
-*.sdf
-Migrations/
-
-# Configs and secrets
-appsettings.json
-appsettings.*.json
-secrets.json
-*.config
-connectionstrings.*.json
-
 # Build outputs
-**/bin/
-**/obj/
+[Bb]in/
+[Oo]bj/
 
-# IDE files
+# Visual Studio files
 .vs/
-*.vsidx
 *.user
 *.suo
-*.cache
-*.vspscc
-*.vssscc
+*.userosscache
+*.sln.docstates
+
+# Rider files
+.idea/
+*.sln.iml
+
+# VS Code files
+.vscode/
+
+# MSBuild
+*.csproj.user
+*.csproj.bak
+
+# NuGet
+.nuget/
+*.nupkg
+packages/
 
 # Logs and temp files
 *.log
 *.tmp
 *.temp
 
-# Other IDEs
-.idea/
-.vscode/
-launchSettings.json
-
-# NuGet
-packages/
-.nuget/
-NuGet.exe
-*.nupkg
-project.lock.json
+# Runtime data
+publish/
+"*.db" 
+"*.db-shm"   
+"*.db-wal" 
