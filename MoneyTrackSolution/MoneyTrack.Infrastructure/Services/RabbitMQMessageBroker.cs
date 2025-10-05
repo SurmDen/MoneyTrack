@@ -26,18 +26,29 @@ namespace MoneyTrack.Infrastructure.Services
 
             try
             {
+                //var factory = new ConnectionFactory()
+                //{
+                //    HostName = configuration["RabbitMQ:Host"] ?? throw new InvalidOperationException("Host name was empty"),
+                //    Port = int.Parse(configuration["RabbitMQ:Port"] ?? "5671"),
+                //    UserName = configuration["RabbitMQ:UserName"] ?? throw new InvalidOperationException("User Name was empty"),
+                //    Password = configuration["RabbitMQ:Password"] ?? throw new InvalidOperationException("Password Name was empty"),
+                //    VirtualHost = configuration["RabbitMQ:VirtualHost"] ?? "/",
+
+                //    RequestedConnectionTimeout = TimeSpan.FromSeconds(30),
+                //    SocketReadTimeout = TimeSpan.FromSeconds(30),
+                //    SocketWriteTimeout = TimeSpan.FromSeconds(30),
+
+                //    AutomaticRecoveryEnabled = true,
+                //    NetworkRecoveryInterval = TimeSpan.FromSeconds(10)
+                //};
+
                 var factory = new ConnectionFactory()
                 {
-                    HostName = configuration["RabbitMQ:Host"] ?? throw new InvalidOperationException("Host name was empty"),
-                    Port = int.Parse(configuration["RabbitMQ:Port"] ?? "5671"),
-                    UserName = configuration["RabbitMQ:UserName"] ?? throw new InvalidOperationException("User Name was empty"),
-                    Password = configuration["RabbitMQ:Password"] ?? throw new InvalidOperationException("Password Name was empty"),
-                    VirtualHost = configuration["RabbitMQ:VirtualHost"] ?? "/",
+                    Uri = new Uri("amqps://rubykqbb:mavci67UbVI26NhkkyAh9C5EkvjvPWyi@gorilla.lmq.cloudamqp.com/rubykqbb"),
 
                     RequestedConnectionTimeout = TimeSpan.FromSeconds(30),
                     SocketReadTimeout = TimeSpan.FromSeconds(30),
                     SocketWriteTimeout = TimeSpan.FromSeconds(30),
-
                     AutomaticRecoveryEnabled = true,
                     NetworkRecoveryInterval = TimeSpan.FromSeconds(10)
                 };
