@@ -19,13 +19,6 @@
 *.sdf
 Migrations/
 
-# Configs and secrets
-appsettings.json
-appsettings.*.json
-secrets.json
-*.config
-connectionstrings.*.json
-
 # Build outputs
 **/bin/
 **/obj/
