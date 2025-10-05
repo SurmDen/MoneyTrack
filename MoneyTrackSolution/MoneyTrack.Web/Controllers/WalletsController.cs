@@ -11,11 +11,13 @@ namespace MoneyTrack.Web.Controllers
     {
         private readonly IWalletRepository _walletRepository;
         private readonly ILogger<WalletsController> _logger;
+        private readonly IMessageBroker _messageBroker;
 
-        public WalletsController(IWalletRepository walletRepository, ILogger<WalletsController> logger)
+        public WalletsController(IWalletRepository walletRepository, ILogger<WalletsController> logger, IMessageBroker messageBroker)
         {
             _walletRepository = walletRepository;
             _logger = logger;
+            _messageBroker = messageBroker;
         }
 
         [HttpPost("create")]
@@ -105,6 +107,34 @@ namespace MoneyTrack.Web.Controllers
                     statusCode: 500,
                     title: "Internal server error",
                     detail: "Error occurred while trying to make transaction. Please try again later"
+                );
+            }
+        }
+
+        [HttpPost("transaction/add")]
+        public async Task<IActionResult> AddTransactionToQueueAsync([FromBody] CreateTransactionDTO transactionDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogWarning("Invalid model state when creating transaction");
+
+                return BadRequest(new { message = "Couldn't make transaction, please input correct data" });
+            }
+
+            try
+            {
+                await _messageBroker.AddMessageToQueueAsync("transactions", transactionDTO);
+
+                return Ok(new {message = "Transaction added to queue"});
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error occured while adding transaction to queue");
+
+                return Problem(
+                    statusCode: 500,
+                    title: "Internal server error",
+                    detail: "Error occurred while trying to make transaction"
                 );
             }
         }
