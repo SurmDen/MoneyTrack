@@ -9,6 +9,13 @@
 *.userosscache
 *.sln.docstates
 
+# Database files
+*.db
+*.db-*
+*.sqlite
+*.mdf
+*.ldf
+
 # Rider files
 .idea/
 *.sln.iml
@@ -32,6 +39,3 @@ packages/
 
 # Runtime data
 publish/
-"*.db" 
-"*.db-shm"   
-"*.db-wal" 
