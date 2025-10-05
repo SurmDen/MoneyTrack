@@ -97,7 +97,7 @@ namespace MoneyTrack.Infrastructure.Services
             _connection?.Dispose();
         }
 
-        public async Task HandleMessageFromQueueAsync<T>(string queueName, Action<T> handler)
+        public async Task HandleMessageFromQueueAsync<T, N>(string queueName, Func<T, N> handler)
         {
             try
             {
