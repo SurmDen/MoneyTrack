@@ -77,11 +77,18 @@ app.MapGet("/main", () =>
 
 using (var scope = app.Services.CreateScope())
 {
-    IMessageBroker messageBroker = scope.ServiceProvider.GetRequiredService<IMessageBroker>();
+    try
+    {
+        IMessageBroker messageBroker = scope.ServiceProvider.GetRequiredService<IMessageBroker>();
 
-    IWalletRepository walletRepository = scope.ServiceProvider.GetRequiredService<IWalletRepository>();
+        IWalletRepository walletRepository = scope.ServiceProvider.GetRequiredService<IWalletRepository>();
 
-    await messageBroker.HandleMessageFromQueueAsync<CreateTransactionDTO, Task>("transactions", walletRepository.CreateTransactionAsync);
+        await messageBroker.HandleMessageFromQueueAsync<CreateTransactionDTO, Task>("transactions", walletRepository.CreateTransactionAsync);
+    }
+    catch (Exception e)
+    {
+        app.Logger.LogError(e, "Establish connection to MQ Error");
+    }
 }
 
 app.Run();
