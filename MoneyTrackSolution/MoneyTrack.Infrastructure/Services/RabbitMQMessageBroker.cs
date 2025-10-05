@@ -29,7 +29,7 @@ namespace MoneyTrack.Infrastructure.Services
                 var factory = new ConnectionFactory()
                 {
                     HostName = configuration["RabbitMQ:Host"] ?? throw new InvalidOperationException("Host name was empty"),
-                    Port = int.Parse(configuration["port"] ?? "5672"),
+                    Port = int.Parse(configuration["RabbitMQ:Port"] ?? "5671"),
                     UserName = configuration["RabbitMQ:UserName"] ?? throw new InvalidOperationException("User Name was empty"),
                     Password = configuration["RabbitMQ:Password"] ?? throw new InvalidOperationException("Password Name was empty"),
                     VirtualHost = configuration["RabbitMQ:VirtualHost"] ?? "/",
