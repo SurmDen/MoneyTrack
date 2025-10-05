@@ -1,3 +1,24 @@
+# Images and media
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+*.svg
+*.webp
+*.mp4
+
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+*.db-shm
+*.db-wal
+*.mdf
+*.ldf
+*.sdf
+Migrations/
+
 # Build outputs
 [Bb]in/
 [Oo]bj/
