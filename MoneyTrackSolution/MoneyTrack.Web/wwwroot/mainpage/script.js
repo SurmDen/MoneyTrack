@@ -250,7 +250,7 @@ function displayOtherWallets() {
             }
 
             try {
-                await apiCall('/transaction/create', {
+                await apiCall('/transaction/add', {
                     method: 'POST',
                     body: JSON.stringify({
                         senderWalletId: senderId,
