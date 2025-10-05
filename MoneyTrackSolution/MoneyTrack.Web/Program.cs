@@ -75,10 +75,13 @@ app.MapGet("/main", () =>
     return Results.File(filePath, "text/html");
 });
 
-IMessageBroker messageBroker = app.Services.GetRequiredService<IMessageBroker>();
+using (var scope = app.Services.CreateScope())
+{
+    IMessageBroker messageBroker = scope.ServiceProvider.GetRequiredService<IMessageBroker>();
 
-IWalletRepository walletRepository = app.Services.GetRequiredService<IWalletRepository>();
+    IWalletRepository walletRepository = scope.ServiceProvider.GetRequiredService<IWalletRepository>();
 
-await messageBroker.HandleMessageFromQueueAsync<CreateTransactionDTO, Task>("transactions", walletRepository.CreateTransactionAsync);
+    await messageBroker.HandleMessageFromQueueAsync<CreateTransactionDTO, Task>("transactions", walletRepository.CreateTransactionAsync);
+}
 
 app.Run();
