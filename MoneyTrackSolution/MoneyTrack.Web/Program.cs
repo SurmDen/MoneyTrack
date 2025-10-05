@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using MoneyTrack.Application.Interfaces;
+using MoneyTrack.Domain.Models.DTOs;
 using MoneyTrack.Infrastructure.Data;
 using MoneyTrack.Infrastructure.Services;
 using System.Text.Json.Serialization;
@@ -46,6 +47,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddScoped<ICurrencyApiService, ExchangeRateApiService>();
 builder.Services.AddScoped<IWalletRepository, WalletRepository>();
+builder.Services.AddSingleton<IMessageBroker, RabbitMQMessageBroker>();
 
 var app = builder.Build();
 
@@ -72,5 +74,11 @@ app.MapGet("/main", () =>
 
     return Results.File(filePath, "text/html");
 });
+
+IMessageBroker messageBroker = app.Services.GetRequiredService<IMessageBroker>();
+
+IWalletRepository walletRepository = app.Services.GetRequiredService<IWalletRepository>();
+
+await messageBroker.HandleMessageFromQueueAsync<CreateTransactionDTO, Task>("transactions", walletRepository.CreateTransactionAsync);
 
 app.Run();

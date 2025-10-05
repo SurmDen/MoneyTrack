@@ -12,6 +12,8 @@ using System.Text.Json;
 
 namespace MoneyTrack.Infrastructure.Services
 {
+    // Знаю, что для тестового задания я немного переборщил,
+    // времени на выполнение оочень много, решил этим воспользоваться...
     public class RabbitMQMessageBroker : IMessageBroker, IDisposable
     {
         private readonly IConnection _connection;

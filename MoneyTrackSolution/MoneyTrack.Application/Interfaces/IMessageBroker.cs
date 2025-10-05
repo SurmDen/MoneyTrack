@@ -10,6 +10,6 @@ namespace MoneyTrack.Application.Interfaces
     {
         public Task AddMessageToQueueAsync<T>(string queueName, T message);
 
-        public Task HandleMessageFromQueueAsync<T>(string queueName, Action<T> handler);
+        public Task HandleMessageFromQueueAsync<T, N>(string queueName, Func<T, N> handler);
     }
 }
